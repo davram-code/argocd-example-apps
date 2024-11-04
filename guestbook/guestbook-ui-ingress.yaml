@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt 
+  name: guestbook-ui
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: guestbook.apps.fsisc.ro
+    http:
+      paths:
+      - backend:
+          service:
+            name: guestbook-ui
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - guestbook.apps.fsisc.ro
+    secretName: guestbook-ui-tls
